@@ -1,0 +1,52 @@
+openapi: 3.0.1
+info:
+  title: Voyager
+  version: '1.0'
+  description: An API to interact with H2 Database.
+
+paths:
+  /api/data:
+    post:
+      summary: Store data
+      description: Accepts JSON data and stores it to the H2 Database.
+      requestBody:
+        description: Data to be stored
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataEntity'
+      responses:
+        '200':
+          description: Data stored successfully.
+        '400':
+          description: Bad request.
+
+    get:
+      summary: Retrieve data
+      description: Returns all data from the H2 Database.
+      responses:
+        '200':
+          description: Successful retrieval of data.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataEntity'
+        '404':
+          description: No data found.
+
+components:
+  schemas:
+    DataEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          description: Unique identifier for the data.
+        content:
+          type: string
+          description: Content of the data.
